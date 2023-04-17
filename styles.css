@@ -1,0 +1,15 @@
+:root {
+  /* CSS HEX */
+  --dark-purple: #160f29ff;
+  --caribbean-current: #246a73ff;
+  --dark-cyan: #368f8bff;
+  --champagne: #f3dfc1ff;
+  --desert-sand: #ddbea8ff;
+
+  /* CSS HSL */
+  --dark-purple: hsla(256, 46%, 11%, 1);
+  --caribbean-current: hsla(187, 52%, 30%, 1);
+  --dark-cyan: hsla(177, 45%, 39%, 1);
+  --champagne: hsla(36, 68%, 85%, 1);
+  --desert-sand: hsla(25, 44%, 76%, 1);
+}
