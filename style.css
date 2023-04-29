@@ -1,15 +1,197 @@
+@font-face {
+  font-family: Manrope;
+  src: url('./fonts/Manrope-VariableFont_wght.ttf') format('truetype');
+}
+
 :root {
   /* CSS HEX */
+  /* --rich-black: #100c1fff;
   --dark-purple: #160f29ff;
+  --oxford-blue: #1a263cff;
+  --prussian-blue: #1c3347ff;
+  --charcoal: #1e4051ff;
+  --midnight-green: #1f4858ff;
   --caribbean-current: #246a73ff;
   --dark-cyan: #368f8bff;
   --champagne: #f3dfc1ff;
-  --desert-sand: #ddbea8ff;
+  --beaver: #f3dfc1ff; */
 
-  /* CSS HSL */
-  --dark-purple: hsla(256, 46%, 11%, 1);
-  --caribbean-current: hsla(187, 52%, 30%, 1);
-  --dark-cyan: hsla(177, 45%, 39%, 1);
-  --champagne: hsla(36, 68%, 85%, 1);
-  --desert-sand: hsla(25, 44%, 76%, 1);
+  /* CSS RGBA */
+  --rich-black: rgba(16, 12, 31, 1);
+  --dark-purple: rgba(22, 15, 41, 1);
+  --oxford-blue: rgba(26, 38, 61, 1);
+  --prussian-blue: rgba(28, 51, 71, 1);
+  --charcoal: rgba(30, 64, 81, 1);
+  --midnight-green: rgba(31, 72, 88, 1);
+  --caribbean-current: rgba(37, 107, 116, 1);
+  --dark-cyan: rgba(55, 144, 140, 1);
+  --champagne: rgba(243, 222, 191, 1);
+  --beaver: rgba(166, 143, 126, 1);
+}
+
+body {
+  font-family: Manrope, serif;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  height: 100vh;
+
+  display: grid;
+  justify-content: center;
+  align-items: stretch;
+
+  grid-template-columns: auto;
+  grid-template-rows: auto 1fr auto;
+}
+
+.header-title {
+  text-align: center;
+  color: var(--dark-cyan);
+}
+
+.virtual-keyboard {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto;
+}
+
+.keyboard {
+  padding: 4px;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(5, 44px);
+  gap: 4px;
+
+  background: var(--dark-cyan);
+  border: solid 2px var(--dark-purple);
+  border-radius: 8px;
+}
+
+.row {
+  display: grid;
+  gap: 4px;
+}
+
+.row-0 {
+  grid-template-columns: repeat(13, 44px) 1fr;
+}
+
+.row-1 {
+  grid-template-columns: 1fr repeat(13, 44px) 1fr;
+}
+
+.row-2 {
+  grid-template-columns: 90px repeat(11, 44px) 1fr;
+}
+
+.row-3 {
+  grid-template-columns: 1fr repeat(11, 44px) 92px;
+}
+
+.row-4 {
+  grid-template-columns: repeat(3, 44px) 1fr repeat(5, 44px);
+}
+
+.key {
+  padding: 4px;
+
+  display: grid;
+  align-items: center;
+  justify-items: center;
+
+  grid-template-columns: repeat(2, auto);
+  grid-template-rows: repeat(2, auto);
+
+  border-radius: 4px;
+  background-color: var(--dark-purple);
+  color: var(--champagne);
+
+  cursor: pointer;
+  transition: background-color 600ms;
+}
+
+.key:hover {
+  background: var(--midnight-green);
+  transition: background-color 200ms;
+}
+
+.sign {
+  font-size: 16px;
+  transition: font-size 100ms;
+  pointer-events: none;
+  user-select: none;
+}
+
+.key:not(.functional) .sign:first-of-type {
+  font-size: 14px;
+
+  grid-column: 2;
+  grid-row: 1;
+
+  color: var(--beaver);
+
+  transition: font-size 100ms;
+}
+
+.key:not(.functional) .sign:last-of-type {
+  font-size: 18px;
+
+  grid-column: 1;
+  grid-row: 2;
+
+  color: var(--champagne);
+
+  transition: font-size 100ms;
+}
+
+.key.functional .sign {
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 2;
+}
+
+.functional {
+  background: var(--rich-black);
+  font-weight: bold;
+}
+
+/* switch group */
+.caps-lock-on .caps-lock {
+  text-transform: uppercase;
+}
+
+.caps-lock-on .key.pressed {
+  background-color: var(--prussian-blue);
+}
+
+.shift-on .shift {
+  text-transform: uppercase;
+}
+
+.shift-on .shift.key:not(.functional, .caps-lock) .sign:last-of-type {
+  font-size: 14px;
+
+  grid-column: 1;
+  grid-row: 2;
+
+  color: var(--beaver);
+}
+
+.shift-on .shift.key:not(.functional, .caps-lock) .sign:first-of-type {
+  font-size: 18px;
+
+  grid-column: 2;
+  grid-row: 1;
+
+  color: var(--champagne);
+}
+
+.keyboard-create-in-windows,
+.notification-switch-language {
+  text-align: center;
 }
