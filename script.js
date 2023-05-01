@@ -263,7 +263,5 @@ document.addEventListener('keyup', (e) => {
 });
 textField.addEventListener('keydown', inputTextArea);
 keyboard.addEventListener('mousedown', wasClick);
-textField.addEventListener('click', () => {
-  arrowPad.setStep();
-});
+textField.addEventListener('click', () => arrowPad.setStep());
 textField.addEventListener('blur', () => textField.focus());
