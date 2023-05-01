@@ -50,36 +50,25 @@ const arrowPad = {
 
     if (textField.selectionStart && lineStart > -1) {
       if (lineStart === textField.selectionStart) {
-        console.log('lineStart === textField.selectionStart ', lineStart === textField.selectionStart);
         lineStart = textField.value.lastIndexOf('\n', textField.selectionStart - 1) + 1;
         this.step = textField.selectionStart - lineStart;
-        console.log('this.step ', this.step);
         return this.step;
       }
-      console.log('lineStart !== textField.selectionStart ', lineStart !== textField.selectionStart);
       this.step = textField.selectionStart - lineStart - 1;
-      console.log('this.step ', this.step);
       return this.step;
     }
 
     lineStart = 0;
     this.step = textField.selectionStart - lineStart;
-    console.log('this.step ', this.step);
     return this.step;
   },
   ArrowUp(selectionStart) {
-    console.log('ArrowUp');
-    console.log('step', this.step);
-
     if (selectionStart) {
       const lineEnd = textField.value.lastIndexOf('\n', selectionStart - 1);
       const lineStart = textField.value.lastIndexOf('\n', ((lineEnd <= -1) || lineEnd) - 1) + 1;
-
-      console.log(`lineStart ${lineStart}`, `lineEnd ${lineEnd}`);
       const position = lineEnd > -1 ? (lineStart + this.step) : 0;
 
       if ((position > lineEnd) && (lineEnd > -1)) {
-        console.log('lineStart > lineEnd');
         textField.setSelectionRange(lineEnd, lineEnd);
         return;
       }
@@ -89,9 +78,6 @@ const arrowPad = {
     textField.setSelectionRange(selectionStart, selectionStart);
   },
   ArrowDown(selectionStart) {
-    console.log('ArrowDown');
-    console.log('step', this.step);
-
     const lineStart = textField.value.indexOf('\n', selectionStart);
     let lineEnd = textField.value.indexOf('\n', lineStart > -1 ? (lineStart + 1) : textField.value.length);
     let position = 0;
@@ -100,16 +86,12 @@ const arrowPad = {
       lineEnd = textField.value.length;
     }
 
-    console.log(`lineStart ${lineStart}`, `lineEnd ${lineEnd}`);
-
     if (lineStart > -1) {
       if (textField.value[selectionStart] === '\n') {
-        console.log('textField.value[selectionStart] === n ', textField.value[selectionStart] === '\n');
         position = (lineStart + this.step) >= lineEnd ? lineEnd : (lineStart + this.step + 1);
         return textField.setSelectionRange(position, position);
       }
       position = (lineStart + this.step) >= lineEnd ? lineEnd : (lineStart + this.step + 1);
-      console.log('this.step ', this.step);
       return textField.setSelectionRange(position, position);
     }
 
@@ -129,8 +111,6 @@ const arrowPad = {
 
 function inputTextArea(e) {
   e.preventDefault();
-
-  console.log('inputTextArea');
 
   const { selectionStart } = textField;
   const { selectionEnd } = textField;
@@ -158,8 +138,6 @@ function wasClick(e) {
   if (!e.target.classList.contains('key')) {
     return;
   }
-  console.log('wasClick');
-  console.log(e);
   if (!(e.target.dataset.key === 'CapsLock')) {
     e.target.style.background = 'var(--prussian-blue)';
   }
@@ -289,7 +267,6 @@ function whichButton(e) {
       prefix = oldText.substring(0, selectionStart - 1);
     },
     Space() {
-      console.log('Space');
       inserted = ' ';
     },
     Tab() {
@@ -313,7 +290,6 @@ function whichButton(e) {
   };
 
   if (Object.hasOwnProperty.call(eventCode, e.key) && !e.code.startsWith('Num')) {
-    console.log('e.key', e.key);
     eventCode[e.key]();
   }
   if (Object.hasOwnProperty.call(arrowPad, e.key) && !e.code.startsWith('Num')) {
@@ -327,7 +303,6 @@ function whichButton(e) {
     if (tag && sht) {
       [inserted] = tag.outerText;
     } else {
-      console.log('inserted', inserted);
       inserted = tag.outerText[2] ?? (tag.outerText[0] ?? ' ');
     }
   }
