@@ -13,8 +13,6 @@ const h1 = create('h1');
 const keyboardCreateInWindows = create('p');
 const notifSwitchLanguage = create('p');
 
-// let currentlang = 'en';
-
 wrapper.classList.add('wrapper');
 
 header.classList.add('header');
@@ -27,8 +25,6 @@ keyboard.classList.add('keyboard');
 
 textField.classList.add('text-field');
 textField.autofocus = true;
-// const ta = document.createElement('textarea');
-// ta.;
 
 virtualKeyboard.classList.add('virtual-keyboard');
 virtualKeyboard.append(textField, keyboard);
@@ -37,7 +33,7 @@ footer.classList.add('footer');
 keyboardCreateInWindows.classList.add('keyboard-create-in-windows');
 notifSwitchLanguage.classList.add('notification-switch-language');
 keyboardCreateInWindows.innerHTML = 'Виртуальная клавиатура создана в Windows OS';
-notifSwitchLanguage.innerHTML = 'Для переключения методов ввода нажмите клавиши ';
+notifSwitchLanguage.innerHTML = 'Для переключения методов ввода нажмите клавиши ctrl + alt';
 footer.append(notifSwitchLanguage, keyboardCreateInWindows);
 
 wrapper.append(header, virtualKeyboard, footer);
@@ -48,31 +44,9 @@ const arrowPad = {
   step: 0,
   lineStart() {
     return textField.value.lastIndexOf('\n', textField.selectionStart);
-    // return textField.value.lastIndexOf('\n', textField.selectionStart - 1);
   },
   setStep() {
-    // let curr = textField.value.lastIndexOf('\n', textField.selectionStart);
-    // let next = textField.value.indexOf('\n', textField.selectionStart);
-
-    // curr = curr > -1 ? curr : 0;
-    // next = next > -1 ? next : 0;
-
-    // console.log('curr ' + curr, 'next ' + next);
-
-    // if (curr === next) {
-    //   if (textField.selectionStart && textField.value[curr - 1] !== '\n') {
-    //     curr = textField.value.lastIndexOf('\n', textField.selectionStart - 1) + 1;
-    //   } else curr = textField.selectionStart;
-    // }
-
-    // if (!next && curr) {
-    //   curr = textField.value.length;
-    // }
-
-    // this.step = textField.selectionStart - curr;
-
     let lineStart = textField.value.lastIndexOf('\n', textField.selectionStart);
-    // const lineEnd = textField.value.indexOf('\n', textField.selectionStart);
 
     if (textField.selectionStart && lineStart > -1) {
       if (lineStart === textField.selectionStart) {
@@ -91,13 +65,8 @@ const arrowPad = {
     lineStart = 0;
     this.step = textField.selectionStart - lineStart;
     console.log('this.step ', this.step);
-    // const lineStart = textField.value.lastIndexOf('\n', textField.selectionStart - 1);
-    // this.step = textField.selectionStart - (lineStart > 0 ? (lineStart + 1) : 0);
     return this.step;
   },
-  // index() {
-  //   return textField.selectionStart - (this.lineStart() > -1 ? this.lineStart() : 0);
-  // },
   ArrowUp(selectionStart) {
     console.log('ArrowUp');
     console.log('step', this.step);
@@ -136,12 +105,9 @@ const arrowPad = {
     if (lineStart > -1) {
       if (textField.value[selectionStart] === '\n') {
         console.log('textField.value[selectionStart] === n ', textField.value[selectionStart] === '\n');
-        // position = (selectionStart + this.step) >= lineEnd ? lineEnd : (lineStart + this.step);
-        // position = lineEnd;
         position = (lineStart + this.step) >= lineEnd ? lineEnd : (lineStart + this.step + 1);
         return textField.setSelectionRange(position, position);
       }
-      // lineStart = textField.value.lastIndexOf('\n', textField.selectionStart - 1) + 1;
       position = (lineStart + this.step) >= lineEnd ? lineEnd : (lineStart + this.step + 1);
       console.log('this.step ', this.step);
       return textField.setSelectionRange(position, position);
@@ -174,9 +140,6 @@ function inputTextArea(e) {
   let inserted = '';
   const suffix = oldText.substring(selectionEnd);
 
-  // if (e.code.startsWith('Arrow') || e.location) {
-  //   inserted = '';
-  // }
   if (keyboard.classList.contains('shift-on')) {
     const tag = keyboard.querySelector(`.${e.code} .shift`);
     if (tag) {
@@ -202,7 +165,6 @@ function wasClick(e) {
   }
 
   document.addEventListener('mouseup', (v) => {
-    // const { target } = v;
     if (!v.shiftKey) {
       keyboard.classList.remove('shift-on');
     }
@@ -218,9 +180,6 @@ function wasClick(e) {
   let prefix = oldText.substring(0, selectionStart);
   let inserted = '';
   let suffix = oldText.substring(selectionEnd);
-  // console.log('event', e);
-  // console.log('e.target', e.target);
-  // console.log('e.target.innerText', e.target.innerText);
 
   const eventCode = {
     ShiftLeft() {
@@ -272,7 +231,6 @@ function wasClick(e) {
   if (Object.hasOwnProperty.call(eventCode, e.target.dataset.key)) {
     eventCode[e.target.dataset.key]();
   } else {
-    // console.log('e.target.outerText', e.target.outerText[0]);
     const outerText = e.target.outerText[2] ?? e.target.outerText[0];
     inserted = e.shiftKey ? e.target.outerText[0] : outerText;
   }
@@ -287,8 +245,6 @@ function wasClick(e) {
 
 function whichButton(e) {
   e.preventDefault();
-  // console.log('whichButton', e);
-  // console.log('e.target', e.target);
 
   const a = document.querySelector(`[data-key=${e.code ? e.code : 'null'}]`);
   const { selectionStart } = textField;
@@ -300,7 +256,6 @@ function whichButton(e) {
   let suffix = oldText.substring(selectionEnd);
 
   if (e.altKey && e.ctrlKey) {
-    // console.log('ctrl + alt');
     a.style.background = 'var(--prussian-blue)';
     let lang = localStorage.getItem('lang');
     if (lang === 'en') {
@@ -368,9 +323,6 @@ function whichButton(e) {
   if (e.key.length <= 1 && !e.code.startsWith('Num')) {
     const tag = keyboard.querySelector(`[data-key=${e.code}]`);
     const sht = keyboard.classList.contains('shift-on');
-    // console.log(tag);
-    // [inserted] = tag.outerText;
-    // console.log('inserted', tag.outerText);
 
     if (tag && sht) {
       [inserted] = tag.outerText;
@@ -394,7 +346,6 @@ function whichButton(e) {
 document.addEventListener('keydown', whichButton);
 document.addEventListener('keyup', (e) => {
   const a = document.querySelector(`[data-key=${e.code ? e.code : 'null'}]`);
-  // console.log(a);
   if (a && e.key !== 'CapsLock') {
     a.style.background = '';
   }
