@@ -22,7 +22,6 @@
       {
         "ignorePackages": true
       }
-    ],
-    "no-console": "off"
+    ]
   }
 }
