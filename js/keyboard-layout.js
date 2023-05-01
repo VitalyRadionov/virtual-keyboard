@@ -4,7 +4,13 @@ const url = './data/data.json';
 const response = await fetch(url);
 const keysObj = await response.json();
 
-const l = localStorage.getItem('lang');
+const getLang = () => {
+  if (!localStorage.getItem('lang')) {
+    localStorage.setItem('lang', 'en');
+  }
+
+  return localStorage.getItem('lang');
+};
 
 const template = [
   ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace'],
@@ -16,7 +22,7 @@ const template = [
 
 const templateRU = ['Backquote', 'BracketLeft', 'BracketRight', 'Semicolon', 'Quote', 'Comma', 'Period'];
 
-const keyboardLayout = (lang = l) => template.map((arrKeys, numberRow) => {
+const keyboardLayout = (lang = getLang()) => template.map((arrKeys, numberRow) => {
   const row = create('div');
   row.classList.add('row', `row-${numberRow}`);
 
