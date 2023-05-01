@@ -1,6 +1,7 @@
 import create from './js/create-element.js';
 import kb from './js/keyboard-layout.js';
 import switchLang from './js/switch-lang.js';
+import arrowPad from './js/arrow-pad.js';
 
 const wrapper = create('div');
 const header = create('header');
@@ -39,75 +40,6 @@ footer.append(notifSwitchLanguage, keyboardCreateInWindows);
 wrapper.append(header, virtualKeyboard, footer);
 
 document.body.insertAdjacentElement('afterbegin', wrapper);
-
-const arrowPad = {
-  step: 0,
-  lineStart() {
-    return textField.value.lastIndexOf('\n', textField.selectionStart);
-  },
-  setStep() {
-    let lineStart = textField.value.lastIndexOf('\n', textField.selectionStart);
-
-    if (textField.selectionStart && lineStart > -1) {
-      if (lineStart === textField.selectionStart) {
-        lineStart = textField.value.lastIndexOf('\n', textField.selectionStart - 1) + 1;
-        this.step = textField.selectionStart - lineStart;
-        return this.step;
-      }
-      this.step = textField.selectionStart - lineStart - 1;
-      return this.step;
-    }
-
-    lineStart = 0;
-    this.step = textField.selectionStart - lineStart;
-    return this.step;
-  },
-  ArrowUp(selectionStart) {
-    if (selectionStart) {
-      const lineEnd = textField.value.lastIndexOf('\n', selectionStart - 1);
-      const lineStart = textField.value.lastIndexOf('\n', ((lineEnd <= -1) || lineEnd) - 1) + 1;
-      const position = lineEnd > -1 ? (lineStart + this.step) : 0;
-
-      if ((position > lineEnd) && (lineEnd > -1)) {
-        textField.setSelectionRange(lineEnd, lineEnd);
-        return;
-      }
-      textField.setSelectionRange(position, position);
-      return;
-    }
-    textField.setSelectionRange(selectionStart, selectionStart);
-  },
-  ArrowDown(selectionStart) {
-    const lineStart = textField.value.indexOf('\n', selectionStart);
-    let lineEnd = textField.value.indexOf('\n', lineStart > -1 ? (lineStart + 1) : textField.value.length);
-    let position = 0;
-
-    if (lineEnd < 0) {
-      lineEnd = textField.value.length;
-    }
-
-    if (lineStart > -1) {
-      if (textField.value[selectionStart] === '\n') {
-        position = (lineStart + this.step) >= lineEnd ? lineEnd : (lineStart + this.step + 1);
-        return textField.setSelectionRange(position, position);
-      }
-      position = (lineStart + this.step) >= lineEnd ? lineEnd : (lineStart + this.step + 1);
-      return textField.setSelectionRange(position, position);
-    }
-
-    return textField.setSelectionRange(textField.value.length, textField.value.length);
-  },
-  ArrowRight(start) {
-    const position = start < textField.value.length ? start + 1 : textField.value.length;
-    textField.setSelectionRange(position, position);
-    return this.setStep();
-  },
-  ArrowLeft(start) {
-    const position = start ? start - 1 : 0;
-    textField.setSelectionRange(position, position);
-    return this.setStep();
-  },
-};
 
 function inputTextArea(e) {
   e.preventDefault();
