@@ -4,18 +4,6 @@
 }
 
 :root {
-  /* CSS HEX */
-  /* --rich-black: #100c1fff;
-  --dark-purple: #160f29ff;
-  --oxford-blue: #1a263cff;
-  --prussian-blue: #1c3347ff;
-  --charcoal: #1e4051ff;
-  --midnight-green: #1f4858ff;
-  --caribbean-current: #246a73ff;
-  --dark-cyan: #368f8bff;
-  --champagne: #f3dfc1ff;
-  --beaver: #f3dfc1ff; */
-
   /* CSS RGBA */
   --rich-black: rgba(16, 12, 31, 1);
   --dark-purple: rgba(22, 15, 41, 1);

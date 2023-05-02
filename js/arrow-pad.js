@@ -1,5 +1,3 @@
-// const this.textField = document.querySelector('textarea');
-
 export default {
   step: 0,
   textField: () => document.querySelector('textarea'),
