@@ -70,13 +70,19 @@ function wasClick(e) {
   if (!e.target.classList.contains('key')) {
     return;
   }
+  if (e.target.dataset.key.startsWith('Shift') && keyboard.classList.contains('shift-on')) {
+    return;
+  }
   if (!(e.target.dataset.key === 'CapsLock')) {
     e.target.style.background = 'var(--prussian-blue)';
   }
 
   document.addEventListener('mouseup', (v) => {
     if (!v.shiftKey) {
-      keyboard.classList.remove('shift-on');
+      keyboard.classList.remove('shift-on', 'shift-click');
+    }
+    if (v.shiftKey) {
+      keyboard.classList.remove('shift-click');
     }
     if (!e.target.classList.contains('pressed')) {
       e.target.style.background = '';
@@ -93,10 +99,10 @@ function wasClick(e) {
 
   const eventCode = {
     ShiftLeft() {
-      keyboard.classList.add('shift-on');
+      keyboard.classList.add('shift-on', 'shift-click');
     },
     ShiftRight() {
-      keyboard.classList.add('shift-on');
+      keyboard.classList.add('shift-on', 'shift-click');
     },
     CapsLock() {
       e.target.classList.toggle('pressed');
@@ -180,6 +186,12 @@ function whichButton(e) {
     return;
   }
 
+  if (e.key === 'Shift') {
+    if (keyboard.classList.contains('shift-click') || keyboard.classList.contains('shift-on')) {
+      return;
+    }
+  }
+
   if (a && e.key !== 'CapsLock') {
     a.style.background = 'var(--prussian-blue)';
   }
@@ -254,11 +266,13 @@ document.addEventListener('keydown', whichButton);
 document.addEventListener('keyup', (e) => {
   const a = document.querySelector(`[data-key=${e.code ? e.code : 'null'}]`);
   if (a && e.key !== 'CapsLock') {
+    if (e.key === 'Shift') {
+      if (keyboard.classList.contains('shift-click')) {
+        return;
+      }
+      keyboard.classList.remove('shift-on');
+    }
     a.style.background = '';
-  }
-
-  if (e.key === 'Shift') {
-    keyboard.classList.remove('shift-on');
   }
 });
 textField.addEventListener('keydown', inputTextArea);
