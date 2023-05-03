@@ -157,6 +157,10 @@ p {
   background-color: var(--prussian-blue);
 }
 
+.caps-lock-on.shift-on .shift {
+  text-transform: lowercase;
+}
+
 .shift-on .shift {
   text-transform: uppercase;
 }

@@ -252,7 +252,9 @@ function whichButton(e) {
   }
 
   if (keyboard.classList.contains('caps-lock-on') || keyboard.classList.contains('shift-on')) {
-    inserted = inserted.toUpperCase();
+    if (keyboard.classList.contains('caps-lock-on') && keyboard.classList.contains('shift-on')) {
+      inserted = inserted.toLowerCase();
+    } else inserted = inserted.toUpperCase();
   }
   textField.value = `${prefix}${inserted}${suffix}`;
 
