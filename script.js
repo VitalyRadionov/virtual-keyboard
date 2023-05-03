@@ -77,7 +77,7 @@ function wasClick(e) {
     e.target.style.background = 'var(--prussian-blue)';
   }
 
-  document.addEventListener('mouseup', (v) => {
+  function mouseUp(v) {
     if (!v.shiftKey) {
       keyboard.classList.remove('shift-on', 'shift-click');
     }
@@ -87,7 +87,10 @@ function wasClick(e) {
     if (!e.target.classList.contains('pressed')) {
       e.target.style.background = '';
     }
-  });
+    document.removeEventListener('mouseup', mouseUp);
+  }
+
+  document.addEventListener('mouseup', mouseUp);
 
   const { selectionStart } = textField;
   const { selectionEnd } = textField;
