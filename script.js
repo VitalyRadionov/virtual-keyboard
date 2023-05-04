@@ -41,31 +41,6 @@ wrapper.append(header, virtualKeyboard, footer);
 
 document.body.insertAdjacentElement('afterbegin', wrapper);
 
-function inputTextArea(e) {
-  e.preventDefault();
-
-  const { selectionStart } = textField;
-  const { selectionEnd } = textField;
-  const oldText = textField.value;
-
-  const prefix = oldText.substring(0, selectionStart);
-  let inserted = '';
-  const suffix = oldText.substring(selectionEnd);
-
-  if (keyboard.classList.contains('shift-on')) {
-    const tag = keyboard.querySelector(`.${e.code} .shift`);
-    if (tag) {
-      inserted = tag.outerText[0] ?? (tag.outerText[2] ?? tag.outerText[0]);
-    }
-  }
-
-  textField.value = `${prefix}${inserted}${suffix}`;
-
-  const newSelectionStart = prefix.length + inserted.length;
-  const newSelectionEnd = prefix.length + inserted.length;
-  return textField.setSelectionRange(newSelectionStart, newSelectionEnd);
-}
-
 function wasClick(e) {
   if (!e.target.classList.contains('key')) {
     return;
@@ -154,11 +129,13 @@ function wasClick(e) {
     inserted = e.shiftKey ? e.target.outerText[0] : outerText;
   }
 
-  textField.value = `${prefix}${inserted}${suffix}`;
+  if ((selectionStart === selectionEnd) || inserted) {
+    textField.value = `${prefix}${inserted}${suffix}`;
 
-  const newSelectionStart = prefix.length + inserted.length;
-  const newSelectionEnd = prefix.length + inserted.length;
-  textField.setSelectionRange(newSelectionStart, newSelectionEnd);
+    const newSelectionStart = prefix.length + inserted.length;
+    const newSelectionEnd = prefix.length + inserted.length;
+    textField.setSelectionRange(newSelectionStart, newSelectionEnd);
+  }
   arrowPad.setStep();
 }
 
@@ -259,11 +236,14 @@ function whichButton(e) {
       inserted = inserted.toLowerCase();
     } else inserted = inserted.toUpperCase();
   }
-  textField.value = `${prefix}${inserted}${suffix}`;
 
-  const newSelectionStart = prefix.length + inserted.length;
-  const newSelectionEnd = prefix.length + inserted.length;
-  textField.setSelectionRange(newSelectionStart, newSelectionEnd);
+  if ((selectionStart === selectionEnd) || inserted) {
+    textField.value = `${prefix}${inserted}${suffix}`;
+
+    const newSelectionStart = prefix.length + inserted.length;
+    const newSelectionEnd = prefix.length + inserted.length;
+    textField.setSelectionRange(newSelectionStart, newSelectionEnd);
+  }
   arrowPad.setStep();
 }
 
@@ -280,7 +260,6 @@ document.addEventListener('keyup', (e) => {
     a.style.background = '';
   }
 });
-textField.addEventListener('keydown', inputTextArea);
 keyboard.addEventListener('mousedown', wasClick);
 textField.addEventListener('click', () => arrowPad.setStep());
 textField.addEventListener('blur', () => textField.focus());
