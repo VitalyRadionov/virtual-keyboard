@@ -225,7 +225,7 @@ function whichButton(e) {
     const sht = keyboard.classList.contains('shift-on');
 
     if (tag && sht) {
-      [inserted] = tag.outerText;
+      [inserted] = tag.outerText ? tag.outerText : ' ';
     } else {
       inserted = tag.outerText[2] ?? (tag.outerText[0] ?? ' ');
     }
